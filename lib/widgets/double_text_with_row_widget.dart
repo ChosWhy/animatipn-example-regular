@@ -1,11 +1,14 @@
+import 'package:animationexample/consts/colors.dart';
+import 'package:animationexample/extensions/text_theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class DoubleTextWithRowWidget extends StatelessWidget {
-  const DoubleTextWithRowWidget(
+  DoubleTextWithRowWidget(
       {Key? key, required this.titleOne, required this.titleTwo})
       : super(key: key);
   final String titleOne;
   final String titleTwo;
+  final ProjectColors _colors = ProjectColors();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class DoubleTextWithRowWidget extends StatelessWidget {
       children: [
         Text(
           titleOne,
-          style: Theme.of(context).textTheme.titleLarge,
+          style: context.textTheme().titleLarge,
         ),
         TextButton(
             onPressed: () {},
@@ -23,7 +26,7 @@ class DoubleTextWithRowWidget extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
-                  ?.copyWith(color: const Color(0xfff1b45b)),
+                  ?.copyWith(color: _colors.goldenHour),
             )),
       ],
     );

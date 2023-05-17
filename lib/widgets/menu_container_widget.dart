@@ -1,9 +1,12 @@
+import 'package:animationexample/consts/border_radii.dart';
+import 'package:animationexample/consts/colors.dart';
+import 'package:animationexample/consts/paddings.dart';
 import 'package:flutter/material.dart';
 
 import '../general_datas.dart';
 
-class MenuContainerWidget extends StatelessWidget {
-  const MenuContainerWidget({
+class MenuContainerWidget extends StatelessWidget with _MenuContainerUtility {
+  MenuContainerWidget({
     super.key,
     required this.index,
     required this.imageUrl,
@@ -18,26 +21,33 @@ class MenuContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: index != (GeneralDatas.menuList.length - 1)
-          ? const EdgeInsets.only(right: 10)
+          ? _paddings.generalSmallOnlyRightPadding
           : EdgeInsets.zero,
       child: Column(
         children: [
           Container(
-            height: 80,
-            width: 80,
+            height: menuSize,
+            width: menuSize,
             decoration: BoxDecoration(
-              color: const Color(0xfff9f0e7),
-              borderRadius: BorderRadius.circular(10),
+              color: _colors.goldenHour,
+              borderRadius: _borderRadii.generalNormalBorderRadiusCircular,
               image: DecorationImage(
                   image: AssetImage(imageUrl), fit: BoxFit.cover),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: _paddings.generalSmallOnlyTopPadding,
             child: Text(menuTitle),
           ),
         ],
       ),
     );
   }
+}
+
+mixin _MenuContainerUtility {
+  final ProjectPaddings _paddings = ProjectPaddings();
+  final ProjectColors _colors = ProjectColors();
+  final ProjectBorderRadii _borderRadii = ProjectBorderRadii();
+  final double menuSize = 80;
 }

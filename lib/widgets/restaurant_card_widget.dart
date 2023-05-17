@@ -1,16 +1,23 @@
 import 'package:animationexample/consts/colors.dart';
+import 'package:animationexample/consts/icons.dart';
+import 'package:animationexample/consts/sizes.dart';
+import 'package:animationexample/extensions/text_theme_extension.dart';
 import 'package:flutter/material.dart';
 
+import '../consts/border_radii.dart';
+import '../consts/paddings.dart';
 import 'icon_and_text.dart';
 
-class RestaurantCardWidget extends StatelessWidget {
-  const RestaurantCardWidget({
+class RestaurantCardWidget extends StatelessWidget
+    with _RestaurantCardWidgetUtility {
+  RestaurantCardWidget({
     super.key,
     this.imageUrl,
     this.name,
     this.discount,
     this.location,
-    this.starPoint, required this.isThereDiscount,
+    this.starPoint,
+    required this.isThereDiscount,
   });
 
   final String? imageUrl;
@@ -24,18 +31,21 @@ class RestaurantCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(color: Colors.black12, spreadRadius: 2, blurRadius: 2)
+          borderRadius: _borderRadii.generalNormalBorderRadiusCircular,
+          boxShadow: [
+            BoxShadow(
+                color: _colors.black12,
+                spreadRadius: ProjectSizes.kTwo,
+                blurRadius: ProjectSizes.kTwo)
           ]),
-      height: 100,
+      height: cardSize,
       child: Row(
         children: [
           //image
           Container(
-            width: 100,
+            width: cardSize,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: _borderRadii.generalNormalBorderRadiusCircular,
               image: DecorationImage(
                   image: AssetImage(imageUrl ?? ""), fit: BoxFit.cover),
             ),
@@ -43,7 +53,7 @@ class RestaurantCardWidget extends StatelessWidget {
           //contents
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: _paddings.generalSmallOnlyLeftPadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,15 +62,15 @@ class RestaurantCardWidget extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: isThereDiscount ? ProjectColors.goldenHour : Colors.transparent,
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                topRight: Radius.circular(10))),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 2),
+                            color: isThereDiscount
+                                ? _colors.goldenHour
+                                : _colors.transparent,
+                            borderRadius:
+                                customBottomLeftAndTopRightBorderRadius),
+                        padding: customSymmetricHorizontalAndVerticalPadding,
                         child: Text(
                           isThereDiscount ? "$discount% OFF" : "",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: context.textTheme().titleSmall,
                         ),
                       ),
                     ],
@@ -68,18 +78,18 @@ class RestaurantCardWidget extends StatelessWidget {
                   //Restaurant name
                   Text(name ?? ""),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: _paddings.generalSmallOnlyTopPadding / 2,
                     child: IconAndText(
                         title: location ?? "",
-                        icon: Icons.place_outlined,
+                        icon: _icons.placeIcon,
                         iconColor: Colors.black),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
+                    padding: _paddings.generalSmallOnlyTopPadding,
                     child: IconAndText(
                       title: "$starPoint",
-                      icon: Icons.star,
-                      iconColor: ProjectColors.goldenHour,
+                      icon: _icons.starIcon,
+                      iconColor: _colors.goldenHour,
                     ),
                   )
                 ],
@@ -90,4 +100,17 @@ class RestaurantCardWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+mixin _RestaurantCardWidgetUtility {
+  final MyIcons _icons = MyIcons();
+  final ProjectColors _colors = ProjectColors();
+  final ProjectPaddings _paddings = ProjectPaddings();
+  final ProjectBorderRadii _borderRadii = ProjectBorderRadii();
+  final double cardSize = 100;
+  final BorderRadius customBottomLeftAndTopRightBorderRadius =
+      const BorderRadius.only(
+          bottomLeft: Radius.circular(10), topRight: Radius.circular(10));
+  final EdgeInsets customSymmetricHorizontalAndVerticalPadding =
+      const EdgeInsets.symmetric(horizontal: 5, vertical: 2);
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
-class IconAndText extends StatelessWidget {
-  const IconAndText({
-    super.key, required this.title, required this.icon, this.iconSize, required this.iconColor,
+class IconAndText extends StatelessWidget with _iconAndTextUtility {
+  IconAndText({
+    super.key,
+    required this.title,
+    required this.icon,
+    this.iconSize,
+    required this.iconColor,
   });
+
   final String title;
   final IconData icon;
   final double? iconSize;
@@ -13,12 +18,21 @@ class IconAndText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon,size: iconSize ?? 20,color: iconColor,),
+        Icon(
+          icon,
+          size: iconSize ?? defaultIconSize,
+          color: iconColor,
+        ),
         Padding(
-          padding: const EdgeInsets.only(left: 5.0),
+          padding: xxxSmallOnlyPadding,
           child: Text(title),
         ),
       ],
     );
   }
+}
+
+mixin _iconAndTextUtility {
+  final EdgeInsets xxxSmallOnlyPadding = const EdgeInsets.only(left: 5.0);
+  final double defaultIconSize = 20;
 }
